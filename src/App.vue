@@ -28,7 +28,8 @@ export default {
       listOfData: ["Data 1", "Data 2", "Data 3"],
       onClick: 0,
       addContent: '',
-      sameData: false
+      sameData: false,
+      saveIndex: ''
     };
   },
   components: {
@@ -41,12 +42,14 @@ export default {
       this.onClick++
       if (this.onClick >= 1) {
         this.addContent = this.listOfData[data]
+        this.saveIndex = data
       }
       if (this.onClick >= 2) {
         let confirm = window.confirm("Delete " + this.listOfData[data] + " ?")
         if (confirm) {
           this.sameData = true
           this.listOfData.splice(data, 1) 
+          this.saveIndex = ''
         } 
         this.onClick = 0
       }
@@ -58,7 +61,14 @@ export default {
       this.sameData = false
     },
     addData(data) {
-      this.listOfData.push(data)
+      if (this.saveIndex === '') {
+        this.listOfData.push(data)
+      } else {
+        this.listOfData[this.saveIndex] = data
+        this.listOfData.push(11111)
+        this.listOfData.splice(this.listOfData.length -1,1)
+        this.saveIndex = ''
+      }
       // sessionStorage.setItem('Data', data)
     }
   },
