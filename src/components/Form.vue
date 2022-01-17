@@ -8,20 +8,31 @@
 <script>
 export default {
   name: "form",
+  props: {
+    getContent: {
+      type: String,
+      required: true
+    },
+    same: {
+      type: Boolean,
+      required: true
+    }
+  },
   data() {
     return {
       addContent: "",
     };
   },
-  props: {
-    getContent: {
-      type: String,
-      required: true
-    }
-  },
   watch: {
     getContent(v){
       this.addContent = v 
+    },
+    same(c) {
+      console.log(c);
+      if (c) {
+        this.addContent = ''
+        this.$emit('emptyForm')
+      }
     }
   },
   methods: {

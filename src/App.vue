@@ -3,8 +3,10 @@
     <h1 style="text-align: center">{{ judul }}</h1>
       <div class="body">
         <Form 
-        @addData="addData"
         :getContent='addContent'
+        :same='sameData'
+        @addData="addData"
+        @emptyForm='emptyFormAfterDelete'
       />
       <home
         :listOfData="listOfData"
@@ -25,7 +27,8 @@ export default {
       judul: "Learn Vue",
       listOfData: ["Data 1", "Data 2", "Data 3"],
       onClick: 0,
-      addContent: ''
+      addContent: '',
+      sameData: false
     };
   },
   components: {
@@ -42,6 +45,7 @@ export default {
       if (this.onClick >= 2) {
         let confirm = window.confirm("Delete " + this.listOfData[data] + " ?")
         if (confirm) {
+          this.sameData = true
           this.listOfData.splice(data, 1) 
         } 
         this.onClick = 0
@@ -49,6 +53,9 @@ export default {
       setTimeout(() => {
         this.onClick = 0
       }, 700);
+    },
+    emptyFormAfterDelete() {
+      this.sameData = false
     },
     addData(data) {
       this.listOfData.push(data)
